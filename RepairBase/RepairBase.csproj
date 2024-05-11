@@ -7,7 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="ln\" />
+    <Compile Remove="ln\**" />
+    <Content Remove="ln\**" />
+    <EmbeddedResource Remove="ln\**" />
+    <None Remove="ln\**" />
   </ItemGroup>
 
   <ItemGroup>

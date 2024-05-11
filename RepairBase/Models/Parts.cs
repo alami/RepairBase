@@ -32,13 +32,10 @@ namespace RepairBase.Models
         public PartsType Type { get; set; }
         [Required]
         public string LaptopModel { get; set; }
+        public Boolean? IsURL { get; set; }
         public string? Image { get; set; } //URL|Local file
 
         public string? Location { get; set; }
         public string? Comments { get; set; }
-
-        public int MbId { get; set; }
-        [ForeignKey("MbId")]
-        public virtual Mb Mb { get; set; }
     }
 }

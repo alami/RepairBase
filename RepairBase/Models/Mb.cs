@@ -19,7 +19,6 @@ namespace RepairBase.Models
         public string PN { get; set; }     // !3-PN->UPPERCASE!
         public string? CompatiblePN { get; set; }// multiple rec
         public string Parts4test { get; set; }  // y/n/other
-        //  public int PartsID                  //----Mb2Parts---
         public string How2start { get; set; }
         public string RAMtype { get; set; }    //DDR2-5, builtin
         public int RAMspeed { get; set; }       //Mhz
@@ -38,5 +37,6 @@ namespace RepairBase.Models
         public string RepairInfo { get; set; }       //comment
         public DateTime DateAdded { get; set; }
         public DateTime UserAdded { get; set; }
+        //  public int PartsID                  //----Mb2Parts---
     }
 }
