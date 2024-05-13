@@ -1,0 +1,45 @@
+﻿@page "/mbrepair"
+@inject IMbRepairService MbRepairService
+@inject IJSRuntime js
+@inject NavigationManager navManager
+
+@rendermode InteractiveServer
+<PageTitle>Matherbord Repair</PageTitle>
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2>Matherboard Repair Set</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a href="/template/create" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Create Matherboard Repair Set
+            </a>
+        </div>
+    </div>
+    @if (Model != null && Model.Count() > 0)
+    {
+        <table class="table table-bordered table-striped" style="width:100%; font-size: smaller">
+            <thead>
+                <tr>
+                    <th rowspan="2">Template Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var obj in Model)
+                {
+                    <tr>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+@code {
+    private List<MbRepair> Model;
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await MbRepairService.Get();
+    }
+
+
+}

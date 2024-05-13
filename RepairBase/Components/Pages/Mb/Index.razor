@@ -1,0 +1,70 @@
+﻿@page "/mb"
+@inject IMbService MbService
+@inject IJSRuntime js
+@inject NavigationManager navManager
+@rendermode InteractiveServer
+<PageTitle>Matherbords</PageTitle>
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2>Matherboards</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a href="/Mb/create" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Create Matherboard
+            </a>
+        </div>
+    </div>
+    @if (Model != null && Model.Count() > 0)
+    {
+    <table class="table table-bordered table-striped" style="width:100%; font-size: smaller">
+        <thead>
+            <tr>
+                <th rowspan="2">Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var obj in Model)
+            {
+            <tr>
+                <td>
+                    <div class="w075 btn-group" role="group">
+                        <a href="/Mb/detail/@obj.Id" class="btn btn-warning mx-2">
+                            <i class="fas fa-database"></i>
+                        </a>
+                        <a href="/Mb/update/@obj.Id" class="btn btn-warning mx-2">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <button @onclick=@(() =>
+                            Delete(obj.Id)) class="btn btn-danger mx-2">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+    }
+
+</div>
+@code {
+    private List<Mb> Model;
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await MbService.Get();
+    }
+    private async Task Delete(int deviceId)
+    {
+        var Mb = Model.First(q => q.Id == deviceId);
+        var conform = await js.InvokeAsync<bool>("confirm", $"Are You Sure Want to Delete {Mb.Id}?");
+        if (conform)
+        {
+            var responses = await MbService.Delete(deviceId);
+            if (responses.Success)
+            {
+                await OnInitializedAsync();
+            }
+        }
+    }
+}

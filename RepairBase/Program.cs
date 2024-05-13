@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using RepairBase.Components;
 using RepairBase.Configurations;
 using RepairBase.Data;
+using RepairBase.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,9 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
+builder.Services.AddScoped<IMbRepairService, MbRepairService>();
+builder.Services.AddScoped<IMbService, MbService>();
+builder.Services.AddScoped<IPartsService, PartsService>();
 builder.Services.AddAutoMapper(typeof(MapperConfig));
 
 
