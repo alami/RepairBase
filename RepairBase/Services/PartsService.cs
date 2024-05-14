@@ -16,6 +16,23 @@ namespace RepairBase.Services
             List<Parts> objList = _db.Parts.ToList();
             return objList;
         }
+        public async Task<Responses<int>> Create(Parts parts)
+        {
+            Responses<int> responses = new();
+            try
+            {
+                _db.Parts.Add(parts);
+                _db.SaveChanges();
+                responses.Success = true;
+
+            }
+            catch (Exception ex)
+            {
+                responses.Success = false;
+                responses.Message = $"/parts/create/ Exception {ex}";
+            }
+            return responses;
+        }
         public async Task<Responses<int>> Delete(int id)
         {
             Responses<int> responses = new();

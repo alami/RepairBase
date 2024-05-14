@@ -1,0 +1,37 @@
+﻿@page "/Parts/create"
+@inject IPartsService PartsService
+@inject IJSRuntime js
+@inject NavigationManager navManager
+@rendermode InteractiveServer
+<h3>Create Parts</h3>
+<EditForm Model="Parts" OnValidSubmit="HandlePartsCreate">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <br />
+
+    <button class="btn btn-primary" type="submit">
+        <span class="oi oi-pencil"></span>
+        Create Parts
+    </button>
+    <button @onclick="BackToList" class="btn btn-outline-secondary">
+        <span class="oi oi-media-skip-backward"></span>
+        Back To List
+    </button>
+
+</EditForm>
+@code {
+    private Parts Parts = new Parts();
+    private async Task HandlePartsCreate()
+    {
+        BackToList();
+        var response = await PartsService.Create(Parts);
+        if (response.Success)
+        {
+            BackToList();
+        }
+    }
+    private void BackToList()
+    {
+        navManager.NavigateTo("/Parts/");
+    }
+}

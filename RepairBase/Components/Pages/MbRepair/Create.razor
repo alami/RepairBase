@@ -1,0 +1,37 @@
+﻿@page "/MbRepair/create"
+@inject IMbRepairService MbRepairService
+@inject IJSRuntime js
+@inject NavigationManager navManager
+@rendermode InteractiveServer
+<h3>Create MbRepair</h3>
+<EditForm Model="MbRepair" OnValidSubmit="HandleMbRepairCreate">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <br />
+
+    <button class="btn btn-primary" type="submit">
+        <span class="oi oi-pencil"></span>
+        Create MbRepair
+    </button>
+    <button @onclick="BackToList" class="btn btn-outline-secondary">
+        <span class="oi oi-media-skip-backward"></span>
+        Back To List
+    </button>
+
+</EditForm>
+@code {
+    private MbRepair MbRepair = new MbRepair();
+    private async Task HandleMbRepairCreate()
+    {
+        BackToList();
+        var response = await MbRepairService.Create(MbRepair);
+        if (response.Success)
+        {
+            BackToList();
+        }
+    }
+    private void BackToList()
+    {
+        navManager.NavigateTo("/MbRepair/");
+    }
+}

@@ -5,7 +5,8 @@ namespace RepairBase.Services
 {
     public interface IPartsService
     {
-        Task<List<Parts>> Get();        
+        Task<List<Parts>> Get();
+        Task<Responses<int>> Create(Parts parts);
         Task<Responses<int>> Delete(int id);
     }
 }
