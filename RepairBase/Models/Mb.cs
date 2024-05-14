@@ -9,6 +9,16 @@ namespace RepairBase.Models
         Mac,
         Unix,
     }
+    public enum VideoSrcType
+    {
+        HDMI,
+        rightType_C,
+        leftType_C,
+        IO_board,
+        VGA,
+        DisplayPort,
+        DVI
+    }
     public class Mb
     {
         [Key]
@@ -27,8 +37,7 @@ namespace RepairBase.Models
         public Boolean Post { get; set; }      //y/n
         public string Video { get; set; }      //n/wtLCD/extScr
         public string VideoInfo { get; set; }  //Post/OS/Blank
-        public string VideoSrcLocated { get; set; }
-                      //HDMI/rightType-C/lest../IOboard/VGA/DP/DVI
+        public string VideoSrcLocated { get; set; }  //HDMI/rightType-C/..
         public OStype  OS { get; set; }        
         public string AdapterBrand { get; set; }
         public string AdapterWattage { get; set; }

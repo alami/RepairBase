@@ -2,6 +2,7 @@
 @inject IMbService MbService
 @inject IJSRuntime js
 @inject NavigationManager navManager
+@using Newtonsoft.Json
 @rendermode InteractiveServer
 <h3>Create Matherboard</h3>
 <EditForm Model="Mb" OnValidSubmit="HandleMbCreate">
@@ -48,7 +49,7 @@
             </div>
             <div class="form-group row p-1">
                 <div class="col-6">
-                    <label for="Comment">How does it start</label>
+                    <label for="Mb.How2start">How does it start</label>
                 </div>
                 <div class="col-6">
                     <InputText @bind-Value="Mb.How2start" class="form-control"></InputText>
@@ -122,8 +123,14 @@
                     <label for="Comment">Video source located</label>
                 </div>
                 <div class="col-6">
-                    <InputText @bind-Value="Mb.VideoSrcLocated" class="form-control"></InputText>
-                    <ValidationMessage For="@(() => Mb.VideoSrcLocated)" />
+                    <InputSelect @bind-Value="tmp" class="form-select" id="author">
+                        <option value="">-- Select Video Source located --</option>
+                        @foreach (var value in Enum.GetValues<VideoSrcType>())
+                        {
+                            <option value="@value">@value</option>
+                        }
+                    </InputSelect>
+
                 </div>
             </div>
         </div>
@@ -210,10 +217,6 @@
                 <div class="col-6">
                     <label for="CreateT">User Added</label>
                 </div>
-                <div class="col-6">
-                    <InputDate @bind-Value="Mb.UserAdded"  class="form-control"></InputDate>
-                    <ValidationMessage For="@(() => Mb.UserAdded)" />
-                </div>
             </div>
 
 
@@ -243,10 +246,18 @@
     </button>
 
 </EditForm>
+@if (tmp.Length > 0)
+{
+    <div style="display:none">@string.Join(", ", tmp)</div>
+}
+
 @code {
-    private Mb Mb = new() { DateAdded= DateTime.Today, UserAdded= DateTime.Today };
+    private string[] tmp { get; set; } = [];
+
+    private Mb Mb = new() { DateAdded = DateTime.Today };
     private async Task HandleMbCreate()
     {
+        Mb.VideoSrcLocated = JsonConvert.SerializeObject(tmp);
         BackToList();
         var response = await MbService.Create(Mb);
         if (response.Success)

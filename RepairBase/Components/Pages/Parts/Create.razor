@@ -8,7 +8,80 @@
     <DataAnnotationsValidator />
     <ValidationSummary />
     <br />
+    <div class="row">
+        <div class="col-4">
+            <div class="form-group row p-1">
+                <div class="col-6">
+                    <label for="Parts.PN">Part Number (P/N)</label>
+                </div>
+                <div class="col-6">
+                    <InputText @bind-Value="Parts.PN" class="form-control"></InputText>
+                    <ValidationMessage For="@(() => Parts.PN)" />
+                </div>
+            </div>
+            <div class="form-group row p-1">
+                <div class="col-6">
+                    <label for="Parts.CompatiblePN">Compatible P/N</label>
+                </div>
+                <div class="col-6">
+                    <InputTextArea @bind-Value="Parts.CompatiblePN" class="form-control"></InputTextArea>
+                    <ValidationMessage For="@(() => Parts.CompatiblePN)" />
+                </div>
+            </div>
+            <div class="form-group row p-1">
+                <div class="col-6">
+                    <label for="Parts.AddPNComments">Additional P/N Comments</label>
+                </div>
+                <div class="col-6">
+                    <InputText @bind-Value="Parts.AddPNComments" class="form-control"></InputText>
+                    <ValidationMessage For="@(() => Parts.AddPNComments)" />
+                </div>
+            </div>
+            <div class="form-group row p-1">
+                <div class="col-6">
+                    <label for="Parts.Type">Additional P/N Comments</label>
+                </div>
+                <div class="col-6">
+                    <InputSelect @bind-Value="Parts.Type" class="form-select" id="author">
+                        <option value="">-- Select Parts Type --</option>
+                        @foreach (var value in Enum.GetValues<PartsType>())
+                        {
+                            <option value="@value">@value</option>
+                        }
+                    </InputSelect>
+                </div>
+            </div>
+            <div class="form-group row p-1">
+                <div class="col-6">
+                    <label for="Parts.LaptopModel">Laptop Model</label>
+                </div>
+                <div class="col-6">
+                    <InputText @bind-Value="Parts.LaptopModel" class="form-control"></InputText>
+                    <ValidationMessage For="@(() => Parts.LaptopModel)" />
+                </div>
+            </div>
+            <div class="form-group row p-1">
+                <div class="col-6">
+                    <label for="Comment">Is URL ?</label>
+                </div>
+                <div class="col-6">
+                    <InputRadioGroup @bind-Value="@Parts.IsURL">
+                        <label>
+                            <InputRadio Value="true" />
+                            yes
+                        </label>
+                        <label>
+                            <InputRadio Value="false" />
+                            no
+                        </label>
+                    </InputRadioGroup>
+                </div>
+            </div>
+        </div>
 
+    </div>
+
+    <br />
     <button class="btn btn-primary" type="submit">
         <span class="oi oi-pencil"></span>
         Create Parts
@@ -19,6 +92,7 @@
     </button>
 
 </EditForm>
+
 @code {
     private Parts Parts = new Parts();
     private async Task HandlePartsCreate()
