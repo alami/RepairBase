@@ -33,6 +33,24 @@ namespace RepairBase.Services
             }
             return responses;
         }
+        public async Task<Responses<int>> Edit(int id, Parts parts)
+        {
+            Responses<int> responses = new();
+            try
+            {
+                _db.Parts.Update(parts);
+                _db.SaveChanges();
+                responses.Success = true;
+
+            }
+            catch (Exception ex)
+            {
+                responses.Success = false;
+                responses.Message = $"/parts/edit/{id} Exception {ex}";
+            }
+            return responses;
+        }
+
         public async Task<Responses<int>> Delete(int id)
         {
             Responses<int> responses = new();

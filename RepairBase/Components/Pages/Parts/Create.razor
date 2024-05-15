@@ -125,7 +125,6 @@
     private Parts Parts = new Parts();
     private async Task HandlePartsCreate()
     {
-        BackToList();
         var response = await PartsService.Create(Parts);
         if (response.Success)
         {

@@ -20,13 +20,29 @@
         <table class="table table-bordered table-striped" style="width:100%; font-size: smaller">
             <thead>
                 <tr>
-                    <th rowspan="2">Name</th>
+                    <th>P/N</th>
+                    <th>Compatible P/N</th>
+                    <th>Additional P/N Comments</th>
+                    <th>Parts Type</th>                    
+                    <th>Laptop Model</th>                    
+                    <th>Image</th>                    
+                    <th>Location</th>                    
+                    <th>Comments</th>                    
+                    <th>Actions</th>                    
                 </tr>
             </thead>
             <tbody>
                 @foreach (var obj in Model)
                 {
                     <tr>
+                        <td>@obj.PN</td>
+                        <td>@obj.CompatiblePN</td>
+                        <td>@obj.AddPNComments</td>
+                        <td>@obj.Type</td>
+                        <td>@obj.LaptopModel</td>
+                        <td>@obj.Image</td>
+                        <td>@obj.Location</td>
+                        <td>@obj.Comments</td>
                         <td>
                             <div class="w075 btn-group" role="group">
                                 <a href="/Parts/detail/@obj.Id" class="btn btn-warning mx-2">
