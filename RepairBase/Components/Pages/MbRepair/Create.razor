@@ -8,6 +8,93 @@
     <DataAnnotationsValidator />
     <ValidationSummary />
     <br />
+    <div class="row">
+        <div class="col-4">
+            <div class="form-group row p-1">
+
+                <div class="form-group row p-1">
+                    <div class="col-6">
+                        <label for="MbRepair.MbId">Matherbords</label>
+                    </div>
+                    <div class="col-6">
+                        <InputSelect @bind-Value="MbRepair.MbId" class="form-select" id="author">
+                            <option value="">-- Select Matherbord --</option>
+                            @foreach (var value in Matherbords)
+                            {
+                                <option value="@value.Id">@value.PN</option>
+                            }
+                        </InputSelect>
+                    </div>
+                </div>
+
+
+                <div class="col-6">
+                    <label for="MbRepair.Model">Model</label>
+                </div>
+                <div class="col-6">
+                    <InputText @bind-Value="MbRepair.Model" class="form-control"></InputText>
+                    <ValidationMessage For="@(() => MbRepair.Model)" />
+                </div>
+            </div>
+            <div class="form-group row p-1">
+                <div class="col-6">
+                    <label for="MbRepair.Revision">Revision</label>
+                </div>
+                <div class="col-6">
+                    <InputText @bind-Value="MbRepair.Revision" class="form-control"></InputText>
+                    <ValidationMessage For="@(() => MbRepair.Revision)" />
+                </div>
+            </div>
+            <div class="form-group row p-1">
+                <div class="col-6">
+                    <label for="MbRepair.Resistance">Resistance</label>
+                </div>
+                <div class="col-6">
+                    <InputText @bind-Value="MbRepair.Resistance" class="form-control"></InputText>
+                    <ValidationMessage For="@(() => MbRepair.Resistance)" />
+                </div>
+            </div>
+            <div class="form-group row p-1">
+                <div class="col-6">
+                    <label for="MbRepair.Standby">Standby</label>
+                </div>
+                <div class="col-6">
+                    <InputText @bind-Value="MbRepair.Standby" class="form-control"></InputText>
+                    <ValidationMessage For="@(() => MbRepair.Standby)" />
+                </div>
+            </div>
+            <div class="form-group row p-1">
+                <div class="col-6">
+                    <label for="MbRepair.WorkingVoltage">WorkingVoltage</label>
+                </div>
+                <div class="col-6">
+                    <InputText @bind-Value="MbRepair.WorkingVoltage" class="form-control"></InputText>
+                    <ValidationMessage For="@(() => MbRepair.WorkingVoltage)" />
+                </div>
+            </div>
+            <br />
+            <div class="form-group row p-1">
+                <div class="col-6">
+                    <label for="MbRepair.AddInformation">AddInformation</label>
+                </div>
+                <div class="col-6">
+                    <InputTextArea @bind-Value="MbRepair.AddInformation" class="form-control"></InputTextArea>
+                    <ValidationMessage For="@(() => MbRepair.AddInformation)" />
+                </div>
+            </div>
+            <div class="form-group row p-1">
+                <div class="col-6">
+                    <label for="BIOS">BIOS File</label>
+                </div>
+                <div class="col-6">
+                    <InputText @bind-Value="BIOS" class="form-control"></InputText>
+                    <ValidationMessage For="@(() => BIOS)" />
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <br />
 
     <button class="btn btn-primary" type="submit">
         <span class="oi oi-pencil"></span>
@@ -20,6 +107,8 @@
 
 </EditForm>
 @code {
+    private List<Mb> Matherbords { get; set; } = [new() { Id =1, PN="123456"}];
+    private string BIOS { get; set; }
     private MbRepair MbRepair = new MbRepair();
     private async Task HandleMbRepairCreate()
     {
