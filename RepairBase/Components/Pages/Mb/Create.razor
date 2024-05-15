@@ -1,11 +1,13 @@
 ﻿@page "/mb/create"
 @inject IMbService MbService
+@inject IPartsService PartsService
 @inject IJSRuntime js
 @inject NavigationManager navManager
 @using Newtonsoft.Json
+@using RepairBase.Models.VM
 @rendermode InteractiveServer
 <h3>Create Matherboard</h3>
-<EditForm Model="Mb" OnValidSubmit="HandleMbCreate">
+<EditForm Model="mbPartsVM" OnValidSubmit="HandleMbCreate">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
@@ -16,8 +18,8 @@
                     <label for="Comment">Brand</label>
                 </div>
                 <div class="col-6">
-                    <InputText @bind-Value="Mb.Brand" class="form-control"></InputText>
-                    <ValidationMessage For="@(() => Mb.Brand)" />
+                    <InputText @bind-Value="mbPartsVM.mb.Brand" class="form-control"></InputText>
+                    <ValidationMessage For="@(() => mbPartsVM.mb.Brand)" />
                 </div>
             </div>
             <div class="form-group row p-1">
@@ -25,8 +27,8 @@
                     <label for="Comment">Part Number</label>
                 </div>
                 <div class="col-6">
-                    <InputText @bind-Value="Mb.PN" class="form-control"></InputText>
-                    <ValidationMessage For="@(() => Mb.PN)" />
+                    <InputText @bind-Value="mbPartsVM.mb.PN" class="form-control"></InputText>
+                    <ValidationMessage For="@(() => mbPartsVM.mb.PN)" />
                 </div>
             </div>
             <div class="form-group row p-1">
@@ -34,8 +36,8 @@
                     <label for="Comment">Compatible Part Number</label>
                 </div>
                 <div class="col-6">
-                    <InputText @bind-Value="Mb.CompatiblePN" class="form-control"></InputText>
-                    <ValidationMessage For="@(() => Mb.CompatiblePN)" />
+                    <InputText @bind-Value="mbPartsVM.mb.CompatiblePN" class="form-control"></InputText>
+                    <ValidationMessage For="@(() => mbPartsVM.mb.CompatiblePN)" />
                 </div>
             </div>
             <div class="form-group row p-1">
@@ -43,17 +45,17 @@
                     <label for="Comment">Parts for test</label>
                 </div>
                 <div class="col-6">
-                    <InputText @bind-Value="Mb.Parts4test" class="form-control"></InputText>
-                    <ValidationMessage For="@(() => Mb.Parts4test)" />
+                    <InputText @bind-Value="mbPartsVM.mb.Parts4test" class="form-control"></InputText>
+                    <ValidationMessage For="@(() => mbPartsVM.mb.Parts4test)" />
                 </div>
             </div>
             <div class="form-group row p-1">
                 <div class="col-6">
-                    <label for="Mb.How2start">How does it start</label>
+                    <label for="mbPartsVM.mb.How2start">How does it start</label>
                 </div>
                 <div class="col-6">
-                    <InputText @bind-Value="Mb.How2start" class="form-control"></InputText>
-                    <ValidationMessage For="@(() => Mb.How2start)" />
+                    <InputText @bind-Value="mbPartsVM.mb.How2start" class="form-control"></InputText>
+                    <ValidationMessage For="@(() => mbPartsVM.mb.How2start)" />
                 </div>
             </div>
             <div class="form-group row p-1">
@@ -61,8 +63,8 @@
                     <label for="Comment">RAM type</label>
                 </div>
                 <div class="col-6">
-                    <InputText @bind-Value="Mb.RAMtype" class="form-control"></InputText>
-                    <ValidationMessage For="@(() => Mb.RAMtype)" />
+                    <InputText @bind-Value="mbPartsVM.mb.RAMtype" class="form-control"></InputText>
+                    <ValidationMessage For="@(() => mbPartsVM.mb.RAMtype)" />
                 </div>
             </div>
             <div class="form-group row p-1">
@@ -70,8 +72,8 @@
                     <label for="Comment">RAM speed</label>
                 </div>
                 <div class="col-6">
-                    <InputNumber @bind-Value="Mb.RAMspeed" class="form-control"></InputNumber>
-                    <ValidationMessage For="@(() => Mb.RAMspeed)" />
+                    <InputNumber @bind-Value="mbPartsVM.mb.RAMspeed" class="form-control"></InputNumber>
+                    <ValidationMessage For="@(() => mbPartsVM.mb.RAMspeed)" />
                 </div>
             </div>
             <div class="form-group row p-1">
@@ -79,8 +81,8 @@
                     <label for="Comment">RAM slots</label>
                 </div>
                 <div class="col-6">
-                    <InputText @bind-Value="Mb.RAMslot" class="form-control"></InputText>
-                    <ValidationMessage For="@(() => Mb.RAMslot)" />
+                    <InputText @bind-Value="mbPartsVM.mb.RAMslot" class="form-control"></InputText>
+                    <ValidationMessage For="@(() => mbPartsVM.mb.RAMslot)" />
                 </div>
             </div>
 
@@ -89,7 +91,7 @@
                     <label for="Comment">Builtin SSD</label>
                 </div>
                 <div class="col-6">
-                    <InputCheckbox @bind-Value="@Mb.BuiltinSSD"></InputCheckbox>
+                    <InputCheckbox @bind-Value="@mbPartsVM.mb.BuiltinSSD"></InputCheckbox>
                 </div>
             </div>
             <div class="form-group row p-1">
@@ -97,7 +99,7 @@
                     <label for="Comment">Post</label>
                 </div>
                 <div class="col-6">
-                    <InputCheckbox @bind-Value="@Mb.Post"></InputCheckbox>
+                    <InputCheckbox @bind-Value="@mbPartsVM.mb.Post"></InputCheckbox>
                 </div>
             </div>
             <div class="form-group row p-1">
@@ -105,8 +107,8 @@
                     <label for="Comment">Video</label>
                 </div>
                 <div class="col-6">
-                    <InputText @bind-Value="Mb.Video" class="form-control"></InputText>
-                    <ValidationMessage For="@(() => Mb.Video)" />
+                    <InputText @bind-Value="mbPartsVM.mb.Video" class="form-control"></InputText>
+                    <ValidationMessage For="@(() => mbPartsVM.mb.Video)" />
                 </div>
             </div>
             <div class="form-group row p-1">
@@ -114,17 +116,19 @@
                     <label for="Comment">Video Info</label>
                 </div>
                 <div class="col-6">
-                    <InputText @bind-Value="Mb.VideoInfo" class="form-control"></InputText>
-                    <ValidationMessage For="@(() => Mb.VideoInfo)" />
+                    <InputText @bind-Value="mbPartsVM.mb.VideoInfo" class="form-control"></InputText>
+                    <ValidationMessage For="@(() => mbPartsVM.mb.VideoInfo)" />
                 </div>
             </div>
+        </div>
+        <div class="col-4">
             <div class="form-group row p-1">
                 <div class="col-6">
                     <label for="Comment">Video source located</label>
                 </div>
                 <div class="col-6">
-                    <InputSelect @bind-Value="tmp" class="form-select" id="author">
-                        <option value="">-- Select Video Source located --</option>
+                    <InputSelect @bind-Value="mbPartsVM.strVideoSrcLocated" class="form-select" id="author" size="8">
+                        <option value="" disabled="disabled">-- Select Video Source located --</option>
                         @foreach (var value in Enum.GetValues<VideoSrcType>())
                         {
                             <option value="@value">@value</option>
@@ -133,15 +137,13 @@
 
                 </div>
             </div>
-        </div>
-        <div class="col-4">
             <div class="form-group row p-1">
                 <div class="col-6">
                     <label for="Tester_time">OS</label>
                 </div>
                 <div class="col-6">
-                    <InputSelect @bind-Value="Mb.OS" class="form-select" id="author">
-                        <option value="">-- Select OS Type --</option>
+                    <InputSelect @bind-Value="mbPartsVM.mb.OS" class="form-select" id="author">
+                        <option value="" disabled="disabled">-- Select OS Type --</option>
                         @foreach (var value in Enum.GetValues<OStype>())
                         {
                             <option value="@value">@value</option>
@@ -155,8 +157,8 @@
                     <label for="Comment">Adapter Brand</label>
                 </div>
                 <div class="col-6">
-                    <InputText @bind-Value="Mb.AdapterBrand" class="form-control"></InputText>
-                    <ValidationMessage For="@(() => Mb.AdapterBrand)" />
+                    <InputText @bind-Value="mbPartsVM.mb.AdapterBrand" class="form-control"></InputText>
+                    <ValidationMessage For="@(() => mbPartsVM.mb.AdapterBrand)" />
                 </div>
             </div>
             <div class="form-group row p-1">
@@ -164,8 +166,8 @@
                     <label for="Comment">Adapter Wattage</label>
                 </div>
                 <div class="col-6">
-                    <InputText @bind-Value="Mb.AdapterWattage" class="form-control"></InputText>
-                    <ValidationMessage For="@(() => Mb.AdapterWattage)" />
+                    <InputText @bind-Value="mbPartsVM.mb.AdapterWattage" class="form-control"></InputText>
+                    <ValidationMessage For="@(() => mbPartsVM.mb.AdapterWattage)" />
                 </div>
             </div>
             <div class="form-group row p-1">
@@ -173,8 +175,8 @@
                     <label for="Comment">Adapter P/N</label>
                 </div>
                 <div class="col-6">
-                    <InputText @bind-Value="Mb.AdapterPN" class="form-control"></InputText>
-                    <ValidationMessage For="@(() => Mb.AdapterPN)" />
+                    <InputText @bind-Value="mbPartsVM.mb.AdapterPN" class="form-control"></InputText>
+                    <ValidationMessage For="@(() => mbPartsVM.mb.AdapterPN)" />
                 </div>
             </div>
             <div class="form-group row p-1">
@@ -182,8 +184,8 @@
                     <label for="Comment">Power Adapter Type Thru</label>
                 </div>
                 <div class="col-6">
-                    <InputText @bind-Value="Mb.PowerAdapterType" class="form-control"></InputText>
-                    <ValidationMessage For="@(() => Mb.PowerAdapterType)" />
+                    <InputText @bind-Value="mbPartsVM.mb.PowerAdapterType" class="form-control"></InputText>
+                    <ValidationMessage For="@(() => mbPartsVM.mb.PowerAdapterType)" />
                 </div>
             </div>
             <div class="form-group row p-1">
@@ -191,8 +193,8 @@
                     <label for="Comment"></label>
                 </div>
                 <div class="col-6">
-                    <InputText @bind-Value="Mb.Video" class="form-control"></InputText>
-                    <ValidationMessage For="@(() => Mb.Video)" />
+                    <InputText @bind-Value="mbPartsVM.mb.Video" class="form-control"></InputText>
+                    <ValidationMessage For="@(() => mbPartsVM.mb.Video)" />
                 </div>
             </div>
             <div class="form-group row p-1">
@@ -200,8 +202,8 @@
                     <label for="Comment">Repair Info</label>
                 </div>
                 <div class="col-6">
-                    <InputTextArea @bind-Value="Mb.RepairInfo" class="form-control"></InputTextArea>
-                    <ValidationMessage For="@(() => Mb.RepairInfo)" />
+                    <InputTextArea @bind-Value="mbPartsVM.mb.RepairInfo" class="form-control"></InputTextArea>
+                    <ValidationMessage For="@(() => mbPartsVM.mb.RepairInfo)" />
                 </div>
             </div>
             <div class="form-group row p-1">
@@ -209,8 +211,8 @@
                     <label for="CreateT">Date Added</label>
                 </div>
                 <div class="col-6">
-                    <InputDate @bind-Value="Mb.DateAdded" class="form-control"></InputDate>
-                    <ValidationMessage For="@(() => Mb.DateAdded)" />
+                    <InputDate @bind-Value="mbPartsVM.mb.DateAdded" class="form-control"></InputDate>
+                    <ValidationMessage For="@(() => mbPartsVM.mb.DateAdded)" />
                 </div>
             </div>
             <div class="form-group row p-1">
@@ -221,14 +223,19 @@
 
 
         </div>
-        <div class="col-4">
+        <div class="col-3 offset-1">
             <div class="form-group row p-1">
-                <div class="col-3">
-                    <label for="Comment">Parts IDs</label>
+                <div class="row">
+                    <label for="parts" style="font-weight:bold">Parts IDs</label>
                 </div>
-                <div class="col-6">
-                    <InputTextArea @bind-Value="Mb.RepairInfo" class="form-control" row="10"></InputTextArea>
-                    <ValidationMessage For="@(() => Mb.RepairInfo)" />
+                <div class="row">
+                    <InputSelect @bind-Value="mbPartsVM.strPartsPNs" class="form-select" id="author" size="@partsSize">
+                        <option value="" disabled="disabled">-- Select Parts --</option>
+                        @foreach (var value in arrPartsPNs)
+                        {
+                            <option value="@value">@value</option>
+                        }
+                    </InputSelect>
                 </div>
             </div>
         </div>
@@ -238,7 +245,7 @@
 
     <button class="btn btn-primary" type="submit">
         <span class="oi oi-pencil"></span>
-        Create Mb
+        Create Matherbord
     </button>
     <button @onclick="BackToList" class="btn btn-outline-secondary">
         <span class="oi oi-media-skip-backward"></span>
@@ -246,20 +253,34 @@
     </button>
 
 </EditForm>
-@if (tmp.Length > 0)
+@*@if (mbPartsVM.strVideoSrcLocated.Length > 0)
 {
-    <div style="display:none">@string.Join(", ", tmp)</div>
-}
+    <div style="display:none">@string.Join(", ", mbPartsVM.strVideoSrcLocated)</div>
+}*@
 
 @code {
-    private string[] tmp { get; set; } = [];
+    private MbPartsVM mbPartsVM { get; set; }
+    private int partsSize { get; set; }
+    string[] arrPartsPNs { get; set; }
+    /*private string[] tmp { get; set; } = [];
+    private Parts[] parts { get; set; } 
+    private Mb Mb = new() { DateAdded = DateTime.Today };*/
 
-    private Mb Mb = new() { DateAdded = DateTime.Today };
+    protected override async Task OnInitializedAsync()
+    {
+        List<Parts> PartsList = await PartsService.Get();
+        partsSize = (PartsList.Count + 1) < 30 ? (PartsList.Count + 1) : 30;
+        List<string> PartsPNs = [];
+        foreach (Parts p in PartsList) PartsPNs.Add(p.PN);
+        arrPartsPNs = PartsPNs.ToArray();
+        mbPartsVM = new MbPartsVM();
+    }
+
     private async Task HandleMbCreate()
     {
-        Mb.VideoSrcLocated = JsonConvert.SerializeObject(tmp);
+        mbPartsVM.mb.VideoSrcLocated = JsonConvert.SerializeObject(mbPartsVM.strVideoSrcLocated);
         BackToList();
-        var response = await MbService.Create(Mb);
+        var response = await MbService.Create(mbPartsVM.mb);
         if (response.Success)
         {
             BackToList();
