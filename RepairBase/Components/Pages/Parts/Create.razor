@@ -77,6 +77,34 @@
                     </InputRadioGroup>
                 </div>
             </div>
+            <div class="form-group row p-1">
+                <div class="col-6">
+                    <label for="Parts.Image">Image</label>
+                </div>
+                <div class="col-6">
+                    <InputText @bind-Value="Parts.Image" class="form-control"></InputText>
+                    <ValidationMessage For="@(() => Parts.Image)" />
+                </div>
+            </div>
+            <div class="form-group row p-1">
+                <div class="col-6">
+                    <label for="Parts.Location">Location</label>
+                </div>
+                <div class="col-6">
+                    <InputText @bind-Value="Parts.Location" class="form-control"></InputText>
+                    <ValidationMessage For="@(() => Parts.Location)" />
+                </div>
+            </div>
+            <div class="form-group row p-1">
+                <div class="col-6">
+                    <label for="Parts.Comments">Comments</label>
+                </div>
+                <div class="col-6">
+                    <InputTextArea @bind-Value="Parts.Comments" class="form-control"></InputTextArea>
+                    <ValidationMessage For="@(() => Parts.Comments)" />
+                </div>
+            </div>
+
         </div>
 
     </div>
