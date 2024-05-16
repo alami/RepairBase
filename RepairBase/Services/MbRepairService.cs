@@ -1,19 +1,16 @@
-﻿using RepairBase.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using RepairBase.Data;
 using RepairBase.Models;
 using RepairBase.Services.Base;
 
 namespace RepairBase.Services
 {
-    public class MbRepairService : IMbRepairService
+    public class MbRepairService(ApplicationDbContext db) : IMbRepairService
     {
-        private readonly ApplicationDbContext _db;
-        public MbRepairService(ApplicationDbContext db)
-        {
-            _db = db;
-        }
+        private readonly ApplicationDbContext _db=db;
         public async Task<List<MbRepair>> Get()
         {
-            List<MbRepair> objList = _db.MbRepair.ToList();
+            List<MbRepair> objList = await _db.MbRepair.ToListAsync();
             return objList;
         }
         public async Task<Responses<int>> Create(MbRepair mbRepair)
@@ -21,8 +18,8 @@ namespace RepairBase.Services
             Responses<int> responses = new();
             try
             {
-                _db.MbRepair.Add(mbRepair);
-                _db.SaveChanges();
+                await _db.MbRepair.AddAsync(mbRepair);
+                await _db.SaveChangesAsync();
                 responses.Success = true;
 
             }

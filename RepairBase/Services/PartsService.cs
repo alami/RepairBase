@@ -1,19 +1,16 @@
-﻿using RepairBase.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using RepairBase.Data;
 using RepairBase.Models;
 using RepairBase.Services.Base;
 
 namespace RepairBase.Services
 {
-    public class PartsService : IPartsService
+    public class PartsService(ApplicationDbContext db) : IPartsService
     {
-        private readonly ApplicationDbContext _db;
-        public PartsService(ApplicationDbContext db)
-        {
-            _db = db;
-        }
+        private readonly ApplicationDbContext _db = db;
         public async Task<List<Parts>> Get()
         {
-            List<Parts> objList = _db.Parts.ToList();
+            List<Parts> objList = await _db.Parts.ToListAsync();
             return objList;
         }
         public async Task<Responses<int>> Create(Parts parts)
@@ -21,8 +18,8 @@ namespace RepairBase.Services
             Responses<int> responses = new();
             try
             {
-                _db.Parts.Add(parts);
-                _db.SaveChanges();
+                await _db.Parts.AddAsync(parts);
+                await _db.SaveChangesAsync();
                 responses.Success = true;
 
             }
@@ -39,7 +36,7 @@ namespace RepairBase.Services
             try
             {
                 _db.Parts.Update(parts);
-                _db.SaveChanges();
+                await _db.SaveChangesAsync();
                 responses.Success = true;
 
             }
