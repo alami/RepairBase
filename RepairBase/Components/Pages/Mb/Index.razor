@@ -20,16 +20,40 @@
     <table class="table table-bordered table-striped" style="width:100%; font-size: smaller">
         <thead>
             <tr>
-                <th rowspan="2">Name</th>
+                <th>Brand</th>
+                <th>P/N</th>
+                <th>Compatible P/N</th>
+                <th>Parts For test</th>
+                <th>how does it start</th>
+                <th>RAM type</th>
+                <th>RAM speed</th>
+                <th>RAM slots</th>
+                <th>Builtin SSD</th>
+                <th>Post</th>
+                <th>Video</th>
+                <th>Video Info</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var obj in Model)
             {
             <tr>
+                <td>@obj.Brand</td>
+                <td>@obj.PN</td>
+                <td>@obj.CompatiblePN</td>
+                <td>@obj.Parts4test</td>
+                <td>@obj.How2start</td>
+                <td>@obj.RAMtype</td>
+                <td>@obj.RAMspeed</td>
+                <td>@obj.RAMslot</td>
+                <td>@obj.BuiltinSSD</td>
+                <td>@obj.Post</td>
+                <td>@obj.Video</td>
+                <td>@obj.VideoInfo</td>
                 <td>
                     <div class="w075 btn-group" role="group">
-                        <a href="/Mb/detail/@obj.Id" class="btn btn-warning mx-2">
+                        <a href="/Mb/details/@obj.Id" class="btn btn-warning mx-2">
                             <i class="fas fa-database"></i>
                         </a>
                         <a href="/Mb/update/@obj.Id" class="btn btn-warning mx-2">

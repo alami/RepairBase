@@ -190,15 +190,6 @@
             </div>
             <div class="form-group row p-1">
                 <div class="col-6">
-                    <label for="Comment"></label>
-                </div>
-                <div class="col-6">
-                    <InputText @bind-Value="mbPartsVM.Mb.Video" class="form-control"></InputText>
-                    <ValidationMessage For="@(() => mbPartsVM.Mb.Video)" />
-                </div>
-            </div>
-            <div class="form-group row p-1">
-                <div class="col-6">
                     <label for="Comment">Repair Info</label>
                 </div>
                 <div class="col-6">
@@ -274,8 +265,8 @@
     private async Task HandleMbCreate()
     {
         mbPartsVM.Mb.VideoSrcLocated = JsonConvert.SerializeObject(mbPartsVM.StrVideoSrcLocated);
-        BackToList();
-        var response = await MbService.Create(mbPartsVM.Mb);
+        //BackToList();
+        var response = await MbService.CreateWtParts(mbPartsVM);
         if (response.Success)
         {
             BackToList();

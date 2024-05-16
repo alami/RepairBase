@@ -16,6 +16,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddScoped<IMbRepairService, MbRepairService>();
 builder.Services.AddScoped<IMbService, MbService>();
 builder.Services.AddScoped<IPartsService, PartsService>();
+builder.Services.AddScoped<IMb2PartsService, Mb2PartsService>();
 builder.Services.AddAutoMapper(typeof(MapperConfig));
 
 
