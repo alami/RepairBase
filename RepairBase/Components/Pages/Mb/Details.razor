@@ -1,5 +1,7 @@
 ﻿@page "/mb/details/{id:int}"
 @inject IMbService MbService
+@inject IPartsService PartsService
+@inject IMb2PartsService Mb2PartsService
 @inject IJSRuntime js
 @inject NavigationManager navManager
 @rendermode InteractiveServer
@@ -199,15 +201,23 @@
 
 
                 </div>
-                <div class="col-3 offset-1">
-                    <div class="form-group row p-1">
-                        <div class="row">
-                            <label for="parts" style="font-weight:bold">Parts IDs</label>
-                        </div>
-                        <div class="row">                            
+                @if (PartsList != null && PartsList.Count>0)
+                {
+                    <div class="col-3 offset-1">
+                        <div class="form-group row p-1">
+                            <div class="row">
+                                <label for="parts" style="font-weight:bold">Parts IDs</label>
+                            </div>
+                            @foreach (Parts item in PartsList)
+                            {
+                                <div class="row">
+                                    <label>@item.PN</label>
+                                </div>
+                            }
                         </div>
                     </div>
-                </div>
+                }
+
             </div>
         </fieldset>
 
@@ -227,12 +237,20 @@
     [Parameter]
     public int id { get; set; }
     private Mb Mb = new Mb();
+    List<Parts> PartsList { get; set; } = new();
+    //List<Mb2Parts> Mb2PartsList { get; set; }
     protected async override Task OnInitializedAsync()
     {
         var responses = await MbService.Get(id);
         if (responses.Success)
         {
             Mb = responses.Data;
+            List<Parts> PartsList0 = await PartsService.Get();
+            List<Mb2Parts> Mb2PartsList = await Mb2PartsService.Get();
+            foreach (Mb2Parts item in Mb2PartsList)
+            {
+                PartsList.Add(PartsList0[item.PartsId]);
+            }
         }
     }
     private void GoToEdit()

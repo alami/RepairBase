@@ -1,4 +1,5 @@
-﻿using RepairBase.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using RepairBase.Data;
 using RepairBase.Models;
 using RepairBase.Services.Base;
 
@@ -9,7 +10,19 @@ namespace RepairBase.Services
         private readonly ApplicationDbContext _db = db;
         public async Task<List<Mb2Parts>> Get()
         {
-            throw new NotImplementedException();
+            List<Mb2Parts> objList = await _db.Mb2Parts.ToListAsync();
+            return objList;
+        }
+        public async Task<List<Mb2Parts>> GetByMbId(int mbId)
+        {
+            List<Mb2Parts> objList = await _db.Mb2Parts.ToListAsync();
+            return objList;
+        }
+
+        public async Task<List<Mb2Parts>> GetByPartsId(int partsId)
+        {
+            List<Mb2Parts> objList = await _db.Mb2Parts.ToListAsync();
+            return objList;
         }
         public async Task<Responses<int>> Create(int idMb, int idParts)
         {
