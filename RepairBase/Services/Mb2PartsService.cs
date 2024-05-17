@@ -15,13 +15,13 @@ namespace RepairBase.Services
         }
         public async Task<List<Mb2Parts>> GetByMbId(int mbId)
         {
-            List<Mb2Parts> objList = await _db.Mb2Parts.ToListAsync();
+            List<Mb2Parts> objList = await _db.Mb2Parts.Where(u=>u.MbId==mbId).ToListAsync();
             return objList;
         }
 
         public async Task<List<Mb2Parts>> GetByPartsId(int partsId)
         {
-            List<Mb2Parts> objList = await _db.Mb2Parts.ToListAsync();
+            List<Mb2Parts> objList = await _db.Mb2Parts.Where(u => u.PartsId == partsId).ToListAsync();
             return objList;
         }
         public async Task<Responses<int>> Create(int idMb, int idParts)

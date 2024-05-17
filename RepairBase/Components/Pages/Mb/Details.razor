@@ -238,7 +238,6 @@
     public int id { get; set; }
     private Mb Mb = new Mb();
     List<Parts> PartsList { get; set; } = new();
-    //List<Mb2Parts> Mb2PartsList { get; set; }
     protected async override Task OnInitializedAsync()
     {
         var responses = await MbService.Get(id);
@@ -246,11 +245,10 @@
         {
             Mb = responses.Data;
             List<Parts> PartsList0 = await PartsService.Get();
-            List<Mb2Parts> Mb2PartsList = await Mb2PartsService.Get();
-            foreach (Mb2Parts item in Mb2PartsList)
-            {
-                PartsList.Add(PartsList0[item.PartsId]);
-            }
+            List<Mb2Parts> Mb2PartsList = await Mb2PartsService.GetByMbId(id);
+            if(Mb2PartsList!=null && Mb2PartsList.Count>0)
+                foreach (Mb2Parts item in Mb2PartsList)
+                    PartsList.Add(PartsList0[item.PartsId]);
         }
     }
     private void GoToEdit()
