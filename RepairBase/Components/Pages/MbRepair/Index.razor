@@ -1,5 +1,6 @@
 ﻿@page "/mbrepair"
 @inject IMbRepairService MbRepairService
+@inject IMbService MbService
 @inject IJSRuntime js
 @inject NavigationManager navManager
 
@@ -16,30 +17,73 @@
             </a>
         </div>
     </div>
-    @if (Model != null && Model.Count() > 0)
+    @if (MbRepairList != null && MbRepairList.Count() > 0)
     {
         <table class="table table-bordered table-striped" style="width:100%; font-size: smaller">
             <thead>
                 <tr>
-                    <th rowspan="2">MbRepair Name</th>
+                    <th>Matherbord P/N</th>
+                    <th>Model</th>
+                    <th>Revision</th>
+                    <th>Resistance</th>
+                    <th>Standby</th>
+                    <th>Working Voltage</th>
+                    <th>Additional Information</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var obj in Model)
+                @foreach (var obj in MbRepairList)
                 {
                     <tr>
+                        <td><span style="font-size:xx-small">@obj.Id.</span>
+                        @MbList.FirstOrDefault(t => t.Id == obj.MbId).PN
+                            <span style="font-size:xx-small">(@obj.MbId)</span></td>
+                        <td>@obj.Model</td>
+                        <td>@obj.Revision</td>
+                        <td>@obj.Resistance</td>
+                        <td>@obj.Standby</td>
+                        <td>@obj.WorkingVoltage</td>
+                        <td>@obj.AddInformation</td>
+                        <td>
+                            <div class="w075 btn-group" role="group">
+                                <a href="/MbRepair/details/@obj.Id" class="btn btn-warning mx-2">
+                                    <i class="fas fa-database"></i>
+                                </a>
+                                <a href="/MbRepair/update/@obj.Id" class="btn btn-warning mx-2">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <button @onclick=@(() =>Delete(obj.Id)) class="btn btn-danger mx-2">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </td>
                     </tr>
                 }
-            </tbody>
-        </table>
-    }
+                </tbody>
+            </table>
+                }
 </div>
 @code {
-    private List<MbRepair> Model;
+    private List<MbRepair> MbRepairList;
+    private List<Mb> MbList;
     protected override async Task OnInitializedAsync()
     {
-        Model = await MbRepairService.Get();
+        MbRepairList = await MbRepairService.Get();
+        MbList = await MbService.Get();
     }
-
+    private async Task Delete(int deviceId)
+    {
+        var MbRepair = MbRepairList.First(q => q.Id == deviceId);
+        var conform = await js.InvokeAsync<bool>("confirm", $"Are You Sure Want to Delete {MbRepair.Id}?");
+        if (conform)
+        {
+            var responses = await MbRepairService.Delete(deviceId);
+            if (responses.Success)
+            {
+                await OnInitializedAsync();
+            }
+        }
+    }
 
 }

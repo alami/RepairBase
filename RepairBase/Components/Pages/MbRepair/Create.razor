@@ -1,5 +1,6 @@
 ﻿@page "/MbRepair/create"
 @inject IMbRepairService MbRepairService
+@inject IMbService MbService
 @inject IJSRuntime js
 @inject NavigationManager navManager
 @rendermode InteractiveServer
@@ -17,11 +18,13 @@
                         <label for="MbRepair.MbId">Matherbords</label>
                     </div>
                     <div class="col-6">
-                        <InputSelect @bind-Value="MbRepair.MbId" class="form-select" id="author">
-                            <option value="">-- Select Matherbord --</option>
-                            @foreach (var value in Matherbords)
-                            {
-                                <option value="@value.Id">@value.PN</option>
+                        <InputSelect @bind-Value="MbRepair.MbId" class="form-select" id="author" size="@mbSize">
+                            <option value="" disabled>-- Select Matherbord --</option>
+                            @if (MbList != null) {
+                                @foreach (var item in MbList)
+                                {
+                                    <option value="@item.Id">@item.PN</option>
+                                }
                             }
                         </InputSelect>
                     </div>
@@ -107,12 +110,19 @@
 
 </EditForm>
 @code {
-    private List<Mb> Matherbords { get; set; } = [new() { Id =1, PN="123456"}];
-    private string BIOS { get; set; }
     private MbRepair MbRepair = new MbRepair();
+    private string BIOS { get; set; }
+
+    private List<Mb> MbList { get; set; }
+    private int mbSize;
+
+    protected override async Task OnInitializedAsync()
+    {
+        MbList = await MbService.Get();
+        mbSize = MbList.Count()+1;
+    }
     private async Task HandleMbRepairCreate()
     {
-        BackToList();
         var response = await MbRepairService.Create(MbRepair);
         if (response.Success)
         {
