@@ -82,8 +82,9 @@
                     <label for="Parts.Image">Image</label>
                 </div>
                 <div class="col-6">
-                    <InputText @bind-Value="Parts.Image" class="form-control"></InputText>
-                    <ValidationMessage For="@(() => Parts.Image)" />
+                    <InputFile OnChange="HandleFileSelection" />
+                    <img src="@img" width="100" height="100" class="img-thumbnail" />
+                    <p class="text-danger">@UploadFileWarning</p>
                 </div>
             </div>
             <div class="form-group row p-1">
@@ -123,6 +124,30 @@
 
 @code {
     private Parts Parts = new Parts();
+    private string UploadFileWarning = string.Empty;
+    private string img = string.Empty;
+    private async Task HandleFileSelection(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        if (file != null)
+        {
+            var ext = System.IO.Path.GetExtension(file.Name);
+            if (ext.ToLower().Contains("jpg") || ext.ToLower().Contains("jpeg") || ext.ToLower().Contains("png") || ext.ToLower().Contains("gif"))
+            {
+                var byteArray = new byte[file.Size]; 
+                    await file.OpenReadStream().ReadAsync(byteArray);
+                string imageType = file.ContentType; 
+                    string base64String = Convert.ToBase64String(byteArray);
+
+                //Parts.Image = base64String;
+                img = $"data:{imageType}; base64, {base64String}";
+            }
+            else
+            {
+                UploadFileWarning = "Pls, select valid image (jpg,png,gif)";
+            }
+        }
+    }
     private async Task HandlePartsCreate()
     {
         var response = await PartsService.Create(Parts);
@@ -133,6 +158,7 @@
     }
     private void BackToList()
     {
+        Parts.LaptopModel = null;
         navManager.NavigateTo("/Parts/");
     }
 }

@@ -19,7 +19,8 @@ builder.Services.AddScoped<IPartsService, PartsService>();
 builder.Services.AddScoped<IMb2PartsService, Mb2PartsService>();
 builder.Services.AddAutoMapper(typeof(MapperConfig));
 
-
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<HttpContextAccessor>();
 
 var app = builder.Build();
 

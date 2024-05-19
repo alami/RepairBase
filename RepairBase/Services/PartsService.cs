@@ -5,9 +5,10 @@ using RepairBase.Services.Base;
 
 namespace RepairBase.Services
 {
-    public class PartsService(ApplicationDbContext db) : IPartsService
+    public class PartsService(ApplicationDbContext db, IHttpContextAccessor httpContextAccessor) : IPartsService
     {
         private readonly ApplicationDbContext _db = db;
+        private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
         public async Task<List<Parts>> Get()
         {
             List<Parts> objList = await _db.Parts.ToListAsync();
@@ -18,7 +19,7 @@ namespace RepairBase.Services
             Responses<int> responses = new();
             try
             {
-                await _db.Parts.AddAsync(parts);
+                _db.Parts.Add(parts);
                 await _db.SaveChangesAsync();
                 responses.Success = true;
 
