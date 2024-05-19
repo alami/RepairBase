@@ -9,7 +9,7 @@ namespace RepairBase.Models
     public enum PartsType
     {
         IOBoard,
-        Laptop,
+        /*Laptop,
         LCDScreen,
         LCDScreenAssy,
         Palmrest,
@@ -17,7 +17,7 @@ namespace RepairBase.Models
         Heatsink,
         HeatsinkFanAssy,
         Speaker,
-        Tablet
+        Tablet*/
     }
     public class Parts
     {

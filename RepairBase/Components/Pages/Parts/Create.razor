@@ -135,11 +135,11 @@
             if (ext.ToLower().Contains("jpg") || ext.ToLower().Contains("jpeg") || ext.ToLower().Contains("png") || ext.ToLower().Contains("gif"))
             {
                 var byteArray = new byte[file.Size]; 
-                    await file.OpenReadStream().ReadAsync(byteArray);
+                await file.OpenReadStream().ReadAsync(byteArray);
                 string imageType = file.ContentType; 
-                    string base64String = Convert.ToBase64String(byteArray);
+                string base64String = Convert.ToBase64String(byteArray);
 
-                //Parts.Image = base64String;
+                Parts.Image = base64String;
                 img = $"data:{imageType}; base64, {base64String}";
             }
             else
@@ -158,7 +158,6 @@
     }
     private void BackToList()
     {
-        Parts.LaptopModel = null;
         navManager.NavigateTo("/Parts/");
     }
 }
