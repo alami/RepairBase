@@ -83,7 +83,10 @@
                 </div>
                 <div class="col-6">
                     <InputFile OnChange="HandleFileSelection" />
+                    @if (img != string.Empty)
+                    {
                     <img src="@img" width="100" height="100" class="img-thumbnail" />
+                    }
                     <p class="text-danger">@UploadFileWarning</p>
                 </div>
             </div>

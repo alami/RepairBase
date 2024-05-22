@@ -9,7 +9,7 @@ namespace RepairBase.Models
     public enum PartsType
     {
         IOBoard,
-        /*Laptop,
+        Laptop,
         LCDScreen,
         LCDScreenAssy,
         Palmrest,
@@ -17,7 +17,7 @@ namespace RepairBase.Models
         Heatsink,
         HeatsinkFanAssy,
         Speaker,
-        Tablet*/
+        Tablet
     }
     public class Parts
     {
@@ -28,13 +28,11 @@ namespace RepairBase.Models
         public string PN { get; set; }// !2-PN->UPPERCASE!
         public string? CompatiblePN { get; set; }
         public string? AddPNComments { get; set; }
-        [Required]
-        public PartsType Type { get; set; }
-        [Required]
-        public string LaptopModel { get; set; }
+        public PartsType? Type { get; set; }
+        public string? LaptopModel { get; set; }
         public Boolean? IsURL { get; set; }
         public string? Image { get; set; } //URL|Local file
-
+        public string? ImageName { get; set; } 
         public string? Location { get; set; }
         public string? Comments { get; set; }
     }

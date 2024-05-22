@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RepairBase.Data;
 using RepairBase.Models;
+using RepairBase.Models.VM;
 using RepairBase.Services.Base;
 
 namespace RepairBase.Services
@@ -21,7 +22,10 @@ namespace RepairBase.Services
             Responses<int> responses = new();
             try
             {
-                parts.Image = CreateFile(parts.Image, "gantely01.jpg");
+                /*if (partsImg.ImageBase64String != string.Empty && partsImg.ImageName != string.Empty)
+                {
+                    partsImg.Parts.Image = CreateFile(partsImg.ImageBase64String, partsImg.ImageName);
+                }*/
                 _db.Parts.Add(parts);
                 await _db.SaveChangesAsync();
                 responses.Success = true;
@@ -47,11 +51,11 @@ namespace RepairBase.Services
 
                 byte[] image = Convert.FromBase64String(imageBase64);
 
-                var fileStream = System.IO.File.Create(fileName);
+                var fileStream = System.IO.File.Create(path);
                 fileStream.Write(image, 0, image.Length);
                 fileStream.Close();
 
-                return $"https://{url}partsimages{fileName}";
+                return $"https://{url}/imgparts/{fileName}";
             }
             return $"{imageBase64}{imageName}";
         }
